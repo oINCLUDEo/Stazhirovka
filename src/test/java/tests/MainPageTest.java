@@ -39,4 +39,11 @@ public class MainPageTest extends BaseTest {
         MainPage mainPage = page(MainPage.class);
         mainPage.checkFooterContactInfo();
     }
+
+    @Test
+    @Description("Проверка навигационного меню при прокрутке")
+    public void navMenuScrollTest() {
+        MainPage mainPage = page(MainPage.class);
+        mainPage.checkNavigationWhenScrollDown();
+    }
 } 

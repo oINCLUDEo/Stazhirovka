@@ -17,7 +17,7 @@ public class MainPage {
     @FindBy(id = "masthead")
     private SelenideElement header;
     @FindBy(id = "site-navigation")
-    private SelenideElement nav;
+    private SelenideElement navMenu;
     @FindBy(xpath = "//a[text()='Register Now']")
     private SelenideElement registerButton;
     @FindBy(xpath = "//section[.//h1[contains(text(), 'Best Selenium Certification Course Online')]]")
@@ -57,7 +57,7 @@ public class MainPage {
 
     @Step("Проверка отображения навигационного меню")
     public MainPage checkVisibilityNav() {
-        nav.shouldBe(visible);
+        navMenu.shouldBe(visible);
         LOG.info("Проверка видимости навигационного меню");
         return this;
     }
@@ -100,7 +100,6 @@ public class MainPage {
         nextSlideButton.shouldBe(visible);
         prevSlideButton.scrollIntoView("{behavior: \"instant\", block: \"center\"}").click();;
         nextSlideButton.click();
-
         LOG.info("Проверка навигации по слайдам курсов успешно завершена");
         return this;
     }
@@ -110,8 +109,15 @@ public class MainPage {
         footerAddress.shouldBe(visible);
         footerEmailLink.shouldBe(visible);
         footerPhoneNumber.shouldBe(visible);
-
         LOG.info("Проверка видимости информации в футере");
+        return this;
+    }
+
+    @Step("Проверка отображения навигационного меню при прокрутке страницы")
+    public MainPage checkNavigationWhenScrollDown() {
+        footer.scrollIntoView("{behavior: 'block'}");
+        navMenu.shouldBe(visible);
+        LOG.info("Проверка видимости навигационного меню при прокрутке страницы");
         return this;
     }
 }
