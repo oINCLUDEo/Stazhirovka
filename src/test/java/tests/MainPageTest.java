@@ -25,4 +25,18 @@ public class MainPageTest extends BaseTest {
         MainPage mainPage = page(MainPage.class);
         mainPage.checkHeaderContactInfo();
     }
+
+    @Test
+    @Description("Проверка навигации по слайдам в блоке 'Most Popular Software Testing Courses'")
+    public void coursesNavigationTest() {
+        MainPage mainPage = page(MainPage.class);
+        mainPage.checkCoursesNavigation();
+    }
+
+    @Test
+    @Description("Проверка футера с контактной информацией")
+    public void footContactInfoTest() {
+        MainPage mainPage = page(MainPage.class);
+        mainPage.checkFooterContactInfo();
+    }
 } 

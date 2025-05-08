@@ -7,8 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.*;
 
 
 public class MainPage {
@@ -26,13 +26,27 @@ public class MainPage {
     private SelenideElement footer;
 
     @FindBy(css = "#masthead a[href^='tel:']")
-    private SelenideElement phoneNumber;
+    private SelenideElement headerPhoneNumber;
     @FindBy(css = "#masthead a[href^='skype:']")
-    private SelenideElement skypeLink;
+    private SelenideElement headerSkypeLink;
     @FindBy(css = "#masthead a[href^='mailto:']")
-    private SelenideElement emailLink;
+    private SelenideElement headerEmailLink;
     @FindBy(css = "div[data-section='section-hb-social-icons-1'] a")
     private ElementsCollection socialLinks;
+
+    @FindBy(css = "div.pp-slider-arrow.swiper-button-prev")
+    private SelenideElement prevSlideButton;
+    @FindBy(css = "div.pp-slider-arrow.swiper-button-next")
+    private SelenideElement nextSlideButton;
+    @FindBy(xpath = "//h2[contains(text(), 'Most Popular Software Testing Courses')")
+    private SelenideElement slidesTitle;
+
+    @FindBy(css = "div[data-elementor-type='footer'] a[href^='tel:']")
+    private SelenideElement footerPhoneNumber;
+    @FindBy(css = "div[data-elementor-type='footer'] a[href^='mailto:']")
+    private SelenideElement footerEmailLink;
+    @FindBy(xpath = "//div[@data-elementor-type='footer']//span[contains(., 'Way2Automation')]")
+    private SelenideElement footerAddress;
 
     @Step("Проверка отображения хедера")
     public MainPage checkVisibilityHeader() {
@@ -71,11 +85,33 @@ public class MainPage {
 
     @Step("Проверка контактной информации в хедере")
     public MainPage checkHeaderContactInfo() {
-        phoneNumber.shouldBe(visible);
-        skypeLink.shouldBe(visible);
-        emailLink.shouldBe(visible);
+        headerPhoneNumber.shouldBe(visible);
+        headerSkypeLink.shouldBe(visible);
+        headerEmailLink.shouldBe(visible);
         socialLinks.shouldHave(sizeGreaterThan(0));
         LOG.info("Проверка контактной информации в хедере");
+        return this;
+    }
+
+    //TODO: Придумать реализацию проверки прокрутки слайдов
+    @Step("Проверка навигации по слайдам курсов")
+    public MainPage checkCoursesNavigation() {
+        prevSlideButton.shouldBe(visible);
+        nextSlideButton.shouldBe(visible);
+        prevSlideButton.scrollIntoView("{behavior: \"instant\", block: \"center\"}").click();;
+        nextSlideButton.click();
+
+        LOG.info("Проверка навигации по слайдам курсов успешно завершена");
+        return this;
+    }
+
+    @Step("Проверка отображения информации в футере")
+    public MainPage checkFooterContactInfo() {
+        footerAddress.shouldBe(visible);
+        footerEmailLink.shouldBe(visible);
+        footerPhoneNumber.shouldBe(visible);
+
+        LOG.info("Проверка видимости информации в футере");
         return this;
     }
 }
