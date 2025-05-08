@@ -24,16 +24,4 @@ public class BaseTest {
     public void tearDown() {
         closeWebDriver();
     }
-
-    @Test
-    @Description("Тест отображения главной страницы")
-    public void openMainPageTest() {
-        MainPage mainPage = page(MainPage.class);
-
-        mainPage.checkVisibilityHeader()
-                .checkVisibilityNav()
-                .checkVisibilityRegisterButton()
-                .checkVisibilityCoursesSection()
-                .checkVisibilityFooter();
-    }
 }

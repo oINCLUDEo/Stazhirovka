@@ -1,5 +1,6 @@
 package pages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
@@ -7,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 
 
 public class MainPage {
     private static final Logger LOG = LoggerFactory.getLogger(MainPage.class);
-
 
     @FindBy(id = "masthead")
     private SelenideElement header;
@@ -23,6 +24,15 @@ public class MainPage {
     private SelenideElement coursesSection;
     @FindBy(xpath = "//div[@data-elementor-type='footer']")
     private SelenideElement footer;
+
+    @FindBy(css = "#masthead a[href^='tel:']")
+    private SelenideElement phoneNumber;
+    @FindBy(css = "#masthead a[href^='skype:']")
+    private SelenideElement skypeLink;
+    @FindBy(css = "#masthead a[href^='mailto:']")
+    private SelenideElement emailLink;
+    @FindBy(css = "div[data-section='section-hb-social-icons-1'] a")
+    private ElementsCollection socialLinks;
 
     @Step("Проверка отображения хедера")
     public MainPage checkVisibilityHeader() {
@@ -56,6 +66,16 @@ public class MainPage {
     public MainPage checkVisibilityFooter() {
         footer.shouldBe(visible);
         LOG.info("Проверка видимости футера");
+        return this;
+    }
+
+    @Step("Проверка контактной информации в хедере")
+    public MainPage checkHeaderContactInfo() {
+        phoneNumber.shouldBe(visible);
+        skypeLink.shouldBe(visible);
+        emailLink.shouldBe(visible);
+        socialLinks.shouldHave(sizeGreaterThan(0));
+        LOG.info("Проверка контактной информации в хедере");
         return this;
     }
 }
