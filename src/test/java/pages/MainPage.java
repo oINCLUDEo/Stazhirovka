@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
 
 
 public class MainPage {
@@ -47,6 +48,11 @@ public class MainPage {
     private SelenideElement footerEmailLink;
     @FindBy(xpath = "//div[@data-elementor-type='footer']//span[contains(., 'Way2Automation')]")
     private SelenideElement footerAddress;
+
+    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., 'All Courses')]")
+    private SelenideElement allCoursesLink;
+    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., 'Lifetime Membership')]")
+    private SelenideElement lifetimeMembershipLink;
 
     @Step("Проверка отображения хедера")
     public MainPage checkVisibilityHeader() {
@@ -98,7 +104,7 @@ public class MainPage {
     public MainPage checkCoursesNavigation() {
         prevSlideButton.shouldBe(visible);
         nextSlideButton.shouldBe(visible);
-        prevSlideButton.scrollIntoView("{behavior: \"instant\", block: \"center\"}").click();;
+        prevSlideButton.scrollIntoView("{behavior: 'instant', block: 'center'}").click();;
         nextSlideButton.click();
         LOG.info("Проверка навигации по слайдам курсов успешно завершена");
         return this;
@@ -118,6 +124,14 @@ public class MainPage {
         footer.scrollIntoView("{behavior: 'block'}");
         navMenu.shouldBe(visible);
         LOG.info("Проверка видимости навигационного меню при прокрутке страницы");
+        return this;
+    }
+
+    @Step("Переход на страницу Lifetime Membership через меню All courses")
+    public MainPage navigateToLifetimeMembership() {
+        allCoursesLink.shouldBe(visible).click();
+        lifetimeMembershipLink.shouldBe(visible).click();
+        LOG.info("Переход на страницу Lifetime Membership");
         return this;
     }
 }

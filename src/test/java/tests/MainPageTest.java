@@ -3,8 +3,10 @@ package tests;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import pages.MainPage;
+import pages.LifetimeMembershipPage;
 
 import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class MainPageTest extends BaseTest {
 
@@ -42,8 +44,17 @@ public class MainPageTest extends BaseTest {
 
     @Test
     @Description("Проверка навигационного меню при прокрутке")
-    public void navMenuScrollTest() {
+    public void navMenuVisibilityWhenScrollTest() {
         MainPage mainPage = page(MainPage.class);
         mainPage.checkNavigationWhenScrollDown();
+    }
+
+    @Test
+    @Description("Проверка перехода на страницу Lifetime Membership через меню All courses")
+    public void navigationMenuRedirectTest() {
+        MainPage mainPage = page(MainPage.class);
+        LifetimeMembershipPage lifetimeMembershipPage = page(LifetimeMembershipPage.class);
+        mainPage.navigateToLifetimeMembership();
+        lifetimeMembershipPage.checkPageTitle();
     }
 } 
