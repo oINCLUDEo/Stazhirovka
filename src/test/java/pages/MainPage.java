@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
 
 
 public class MainPage {
@@ -39,7 +38,7 @@ public class MainPage {
     private SelenideElement prevSlideButton;
     @FindBy(css = "div.pp-slider-arrow.swiper-button-next")
     private SelenideElement nextSlideButton;
-    @FindBy(xpath = "//h2[contains(text(), 'Most Popular Software Testing Courses')")
+    @FindBy(xpath = "//h2[contains(text(), 'Most Popular Software Testing Courses')]")
     private SelenideElement slidesTitle;
 
     @FindBy(css = "div[data-elementor-type='footer'] a[href^='tel:']")
