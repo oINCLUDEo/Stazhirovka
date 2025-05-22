@@ -9,6 +9,7 @@ import helpers.TestConfig;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
+import static helpers.AssertHelper.assertEqualsWithMessage;
 import static helpers.GenerateData.*;
 import static org.testng.Assert.assertEquals;
 
@@ -33,8 +34,9 @@ public class LoginPageTest extends BaseTest {
     public void successfulLoginTest() {
         loginPage.enterCredentials( TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
                 .clickLogin();
-        assertEquals(loginPage.getSuccessMessageText(), LoginPageMessages.SUCCESS_LOGIN_MESSAGE,
-                "Текст сообщения об успешной авторизации не соответствует ожидаемому");
+        String actualSuccessMessage = loginPage.getSuccessMessageText();
+        String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
+        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage, "Текст сообщения об успешной авторизации");
     }
 
     @Test
@@ -42,8 +44,9 @@ public class LoginPageTest extends BaseTest {
     public void invalidLoginTest() {
         loginPage.enterCredentials(generateWrongUsername(), generateWrongPassword(), generateUsernameDescription())
                 .clickLogin();
-        assertEquals(loginPage.getErrorMessageText(), LoginPageMessages.ERROR_LOGIN_MESSAGE,
-                "Текст сообщения об ошибке авторизации не соответствует ожидаемому");
+        String actualErrorMessage = loginPage.getErrorMessageText();
+        String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
+        assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage, "Текст сообщения об ошибке авторизации");
     }
 
     @Test(dependsOnMethods = "successfulLoginTest")
@@ -51,8 +54,9 @@ public class LoginPageTest extends BaseTest {
     public void logoutTest() {
         loginPage.enterCredentials(TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
                 .clickLogin();
-        assertEquals(loginPage.getSuccessMessageText(), LoginPageMessages.SUCCESS_LOGIN_MESSAGE,
-                "Текст сообщения об успешной авторизации не соответствует ожидаемому");
+        String actualSuccessMessage = loginPage.getSuccessMessageText();
+        String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
+        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage, "Текст сообщения об успешной авторизации");
         loginPage.logout();
     }
 } 
