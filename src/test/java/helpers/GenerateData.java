@@ -11,7 +11,12 @@ public class GenerateData {
     private static final Faker faker = new Faker();
     private static final Logger LOG = LoggerFactory.getLogger(GenerateData.class);
 
-
+    /**
+     * Генерирует случайное описание имени пользователя.
+     * Использует Lorem Ipsum из Faker и логирует результат.
+     *
+     * @return строка с описанием длиной от 3 до 10 символов
+     */
     public static String generateUsernameDescription() {
         int length = random.nextInt(8) + 3;
         String usernameDescription = faker.lorem().characters(length);
@@ -19,6 +24,12 @@ public class GenerateData {
         return usernameDescription;
     }
 
+    /**
+     * Генерирует невалидный пароль, отличный от "password".
+     * Длина пароля от 3 до 50 символов.
+     *
+     * @return невалидный пароль
+     */
     public static String generateWrongPassword() {
         int length = random.nextInt(48) + 3;
         String wrongPassword;
@@ -29,6 +40,12 @@ public class GenerateData {
         return wrongPassword;
     }
 
+    /**
+     * Генерирует невалидное имя пользователя, отличное от "angular".
+     * Длина имени от 3 до 100 символов.
+     *
+     * @return невалидное имя пользователя
+     */
     public static String generateWrongUsername() {
         int length = random.nextInt(98) + 3;
         String wrongUsername;

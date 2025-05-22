@@ -3,17 +3,17 @@ package pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import helpers.MainPageMessages;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 
 public class MainPage {
@@ -23,9 +23,9 @@ public class MainPage {
     private SelenideElement header;
     @FindBy(id = "site-navigation")
     private SelenideElement navMenu;
-    @FindBy(xpath = "//a[text()='Register Now']")
+    @FindBy(xpath = "//a[text()='" + MainPageMessages.REGISTER_NOW_BUTTON + "']")
     private ElementsCollection registerButton;
-    @FindBy(xpath = "//section[.//h1[contains(text(), 'Best Selenium Certification Course Online')]]")
+    @FindBy(xpath = "//section[.//h1[contains(text(), '" + MainPageMessages.COURSES_SECTION_TITLE + "')]]")
     private SelenideElement coursesSection;
     @FindBy(xpath = "//div[@data-elementor-type='footer']")
     private SelenideElement footer;
@@ -35,39 +35,52 @@ public class MainPage {
     private SelenideElement headerSkypeLink;
     @FindBy(css = "#masthead a[href^='mailto:']")
     private SelenideElement headerEmailLink;
+    @FindBy(css = "#masthead a[href^='https://wa.me/']")
+    private ElementsCollection headerWhatsappLinks;
     @FindBy(css = "div[data-section='section-hb-social-icons-1'] a")
     private ElementsCollection socialLinks;
     @FindBy(css = "div.pp-slider-arrow.swiper-button-prev")
     private SelenideElement prevSlideButton;
     @FindBy(css = "div.pp-slider-arrow.swiper-button-next")
     private SelenideElement nextSlideButton;
-    @FindBy(xpath = "//h2[contains(text(), 'Most Popular Software Testing Courses')]")
+    @FindBy(xpath = "//h2[contains(text(), '" + MainPageMessages.POPULAR_COURSES_TITLE + "')]")
     private SelenideElement slidesTitle;
     @FindBy(css = "div[data-elementor-type='footer'] a[href^='tel:']")
-    private SelenideElement footerPhoneNumber;
+    private ElementsCollection footerPhoneNumbers;
     @FindBy(css = "div[data-elementor-type='footer'] a[href^='mailto:']")
-    private SelenideElement footerEmailLink;
+    private ElementsCollection footerEmailLinks;
     @FindBy(xpath = "//div[@data-elementor-type='footer']//span[contains(., 'Way2Automation')]")
     private SelenideElement footerAddress;
-    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., 'All Courses')]")
+    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., '" + MainPageMessages.ALL_COURSES_MENU_ITEM + "')]")
     private SelenideElement allCoursesLink;
-    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., 'Lifetime Membership')]")
+    @FindBy(xpath = "//nav[@id='site-navigation']//span[contains(., '" + MainPageMessages.LIFETIME_MEMBERSHIP_MENU_ITEM + "')]")
     private SelenideElement lifetimeMembershipLink;
     @FindBy(css = ".dialog-close-button.dialog-lightbox-close-button")
     private SelenideElement closePopupButton;
     @FindBy(css = ".swiper-slide")
     private ElementsCollection swiperSlide;
 
-    private SelenideElement getActiveSlide() {
+    public SelenideElement getActiveSlide() {
         return $$(".swiper-slide.swiper-slide-active").filter(visible).first();
     }
 
-    private SelenideElement getNextSlide() {
+    public SelenideElement getNextSlide() {
         return $$(".swiper-slide.swiper-slide-next").filter(visible).first();
     }
 
-    private SelenideElement getPrevSlide() {
+    public SelenideElement getPrevSlide() {
         return $$(".swiper-slide.swiper-slide-prev").filter(visible).first();
+    }
+    public String getActiveSlideIndex() {
+        return getActiveSlide().getAttribute("data-swiper-slide-index");
+    }
+
+    public String getNextSlideIndex() {
+        return getNextSlide().getAttribute("data-swiper-slide-index");
+    }
+
+    public String getPrevSlideIndex() {
+        return getPrevSlide().getAttribute("data-swiper-slide-index");
     }
 
     @Step("Проверка отображения хедера")
@@ -105,21 +118,11 @@ public class MainPage {
         return this;
     }
 
-    @Step("Проверка контактной информации в хедере")
-    public MainPage checkHeaderContactInfo() {
-        headerPhoneNumber.shouldBe(visible);
-        headerSkypeLink.shouldBe(visible);
-        headerEmailLink.shouldBe(visible);
-        socialLinks.shouldHave(sizeGreaterThan(0));
-        LOG.info("Проверка контактной информации в хедере");
-        return this;
-    }
-
     @Step("Проверка отображения навигации по слайдам курсов")
     public MainPage checkVisibilityCoursesNavigation() {
-        prevSlideButton.scrollIntoView("{behavior: 'instant', block: 'center'}");
         prevSlideButton.shouldBe(visible);
         nextSlideButton.shouldBe(visible);
+        prevSlideButton.scrollIntoView("{behavior: 'instant', block: 'center'}");
         LOG.info("Проверка отображения навигации по слайдам курсов");
         return this;
     }
@@ -143,6 +146,18 @@ public class MainPage {
                 .shouldHave(attribute("data-swiper-slide-index", prevSlideIndexBefore), Duration.ofSeconds(7));
         LOG.info("Слайд переключился назад на индекс {}", prevSlideIndexBefore);
         LOG.info("Слайды успешно переключаются вперед и назад");
+        return this;
+    }
+
+    @Step("Клик на кнопку следующего слайда")
+    public MainPage clickNextSlide() {
+        nextSlideButton.click();
+        return this;
+    }
+
+    @Step("Клик на кнопку предыдущего слайда")
+    public MainPage clickPrevSlide() {
+        prevSlideButton.click();
         return this;
     }
 
@@ -184,14 +199,16 @@ public class MainPage {
         return this;
     }
 
-    @Step("Проверка отображения информации в футере")
-    public MainPage checkFooterContactInfo() {
+    @Step("Получение контактной информации из футера")
+    public FooterContactData getFooterContactData() {
         footer.scrollIntoView("{behavior: 'instant', block: 'center'}");
-        footerAddress.shouldBe(visible);
-        footerEmailLink.shouldBe(visible);
-        footerPhoneNumber.shouldBe(visible);
-        LOG.info("Проверка видимости информации в футере");
-        return this;
+        String address = footerAddress.getText();
+        String phone1 = footerPhoneNumbers.findBy(href(MainPageMessages.FOOTER_PHONE_1_HREF)).getText();
+        String phone2 = footerPhoneNumbers.findBy(href(MainPageMessages.FOOTER_PHONE_2_HREF)).getText();
+        String email1 = footerEmailLinks.findBy(href(MainPageMessages.FOOTER_EMAIL_1_HREF)).getText();
+        String email2 = footerEmailLinks.findBy(href(MainPageMessages.FOOTER_EMAIL_2_HREF)).getText();
+        LOG.info("Получена контактная информация из футера");
+        return new FooterContactData(address, phone1, phone2, email1, email2);
     }
 
     @Step("Проверка отображения навигационного меню при прокрутке страницы")
@@ -208,5 +225,106 @@ public class MainPage {
         lifetimeMembershipLink.shouldBe(visible).click();
         LOG.info("Переход на страницу Lifetime Membership");
         return this;
+    }
+
+    @Step("Получение контактной информации из хедера")
+    public HeaderContactData getHeaderContactData() {
+        String whatsapp1 = headerWhatsappLinks.findBy(href(MainPageMessages.HEADER_WHATSAPP_1_HREF)).getText();
+        String whatsapp2 = headerWhatsappLinks.findBy(href(MainPageMessages.HEADER_WHATSAPP_2_HREF)).getText();
+        String phone = headerPhoneNumber.getText();
+        String skype = headerSkypeLink.getText();
+        String email = headerEmailLink.getText();
+        String whatsapp1Href = headerWhatsappLinks.findBy(href(MainPageMessages.HEADER_WHATSAPP_1_HREF)).getAttribute("href");
+        String whatsapp2Href = headerWhatsappLinks.findBy(href(MainPageMessages.HEADER_WHATSAPP_2_HREF)).getAttribute("href");
+        String phoneHref = headerPhoneNumber.getAttribute("href");
+        String skypeHref = headerSkypeLink.getAttribute("href");
+        String emailHref = headerEmailLink.getAttribute("href");
+        ElementsCollection socialLinks = this.socialLinks.shouldHave(size(4));
+        String facebookHref = socialLinks.findBy(href(MainPageMessages.FACEBOOK_HREF)).getAttribute("href");
+        String linkedinHref = socialLinks.findBy(href(MainPageMessages.LINKEDIN_HREF)).getAttribute("href");
+        String googlePlusHref = socialLinks.findBy(href(MainPageMessages.GOOGLE_PLUS_HREF)).getAttribute("href");
+        String youtubeHref = socialLinks.findBy(href(MainPageMessages.YOUTUBE_HREF)).getAttribute("href");
+
+        LOG.info("Получена контактная информация из хедера");
+        return new HeaderContactData(
+            whatsapp1, whatsapp2, phone, skype, email,
+            whatsapp1Href, whatsapp2Href, phoneHref, skypeHref, emailHref,
+            facebookHref, linkedinHref, googlePlusHref, youtubeHref
+        );
+    }
+
+    public static class FooterContactData {
+        private final String address;
+        private final String phone1;
+        private final String phone2;
+        private final String email1;
+        private final String email2;
+
+        public FooterContactData(String address, String phone1, String phone2, String email1, String email2) {
+            this.address = address;
+            this.phone1 = phone1;
+            this.phone2 = phone2;
+            this.email1 = email1;
+            this.email2 = email2;
+        }
+
+        public String getAddress() { return address; }
+        public String getPhone1() { return phone1; }
+        public String getPhone2() { return phone2; }
+        public String getEmail1() { return email1; }
+        public String getEmail2() { return email2; }
+    }
+
+    public static class HeaderContactData {
+        private final String whatsapp1;
+        private final String whatsapp2;
+        private final String phone;
+        private final String skype;
+        private final String email;
+        private final String whatsapp1Href;
+        private final String whatsapp2Href;
+        private final String phoneHref;
+        private final String skypeHref;
+        private final String emailHref;
+        private final String facebookHref;
+        private final String linkedinHref;
+        private final String googlePlusHref;
+        private final String youtubeHref;
+
+        public HeaderContactData(
+            String whatsapp1, String whatsapp2, String phone, String skype, String email,
+            String whatsapp1Href, String whatsapp2Href, String phoneHref, String skypeHref, String emailHref,
+            String facebookHref, String linkedinHref, String googlePlusHref, String youtubeHref
+        ) {
+            this.whatsapp1 = whatsapp1;
+            this.whatsapp2 = whatsapp2;
+            this.phone = phone;
+            this.skype = skype;
+            this.email = email;
+            this.whatsapp1Href = whatsapp1Href;
+            this.whatsapp2Href = whatsapp2Href;
+            this.phoneHref = phoneHref;
+            this.skypeHref = skypeHref;
+            this.emailHref = emailHref;
+            this.facebookHref = facebookHref;
+            this.linkedinHref = linkedinHref;
+            this.googlePlusHref = googlePlusHref;
+            this.youtubeHref = youtubeHref;
+        }
+
+        public String getWhatsapp1() { return whatsapp1; }
+        public String getWhatsapp2() { return whatsapp2; }
+        public String getPhone() { return phone; }
+        public String getSkype() { return skype; }
+        public String getEmail() { return email; }
+        public String getWhatsapp1Href() { return whatsapp1Href; }
+        public String getWhatsapp2Href() { return whatsapp2Href; }
+        public String getPhoneHref() { return phoneHref; }
+        public String getSkypeHref() { return skypeHref; }
+        public String getEmailHref() { return emailHref; }
+        public String getFacebookHref() { return facebookHref; }
+        public String getLinkedinHref() { return linkedinHref; }
+        public String getGooglePlusHref() { return googlePlusHref; }
+        public String getYoutubeHref() { return youtubeHref; }
     }
 }

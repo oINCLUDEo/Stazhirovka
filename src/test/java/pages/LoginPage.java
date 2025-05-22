@@ -22,10 +22,16 @@ public class LoginPage {
     @FindBy(xpath = "//a[text()='Logout']")
     private SelenideElement logoutButton;
 
-    @Step("Проверка отображения полей Username и Password и состояния кнопки Login")
-    public LoginPage checkFieldsAndButtonState() {
+    @Step("Проверка видимости полей ввода на странице логина")
+    public LoginPage checkLoginFieldsVisibility() {
         usernameInput.shouldBe(visible);
         passwordInput.shouldBe(visible);
+        usernameDescriptionInput.shouldBe(visible);
+        return this;
+    }
+
+    @Step("Проверка состояния кнопки Login при пустых полях ввода")
+    public LoginPage checkLoginButtonStateWithEmptyFields() {
         loginButton.shouldBe(disabled);
         return this;
     }
@@ -44,16 +50,14 @@ public class LoginPage {
         return this;
     }
 
-    @Step("Проверка успешной авторизации")
-    public LoginPage checkSuccessLogin() {
-        successMessage.shouldBe(visible).shouldHave(text("You're logged in!!"));
-        return this;
+    @Step("Получение текста сообщения об успешной авторизации")
+    public String getSuccessMessageText() {
+        return successMessage.shouldBe(visible).getText();
     }
 
-    @Step("Проверка ошибки авторизации")
-    public LoginPage checkErrorLogin() {
-        errorMessage.shouldBe(visible).shouldHave(text("Username or password is incorrect"));
-        return this;
+    @Step("Получение текста сообщения об ошибке авторизации")
+    public String getErrorMessageText() {
+        return errorMessage.shouldBe(visible).getText();
     }
 
     @Step("Разлогиниться")

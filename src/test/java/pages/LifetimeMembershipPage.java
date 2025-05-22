@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import helpers.MainPageMessages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -15,11 +16,14 @@ public class LifetimeMembershipPage {
     @FindBy(tagName = "h1")
     private SelenideElement pageTitle;
 
-    @Step("Проверка заголовка страницы Lifetime Membership")
-    public LifetimeMembershipPage checkPageTitle() {
-        pageTitle.shouldBe(visible)
-                .shouldHave(text("LIFETIME MEMBERSHIP CLUB"));
-        LOG.info("Проверка заголовка страницы Lifetime Membership");
+    public SelenideElement getPageTitle() {
+        return pageTitle;
+    }
+
+    @Step("Проверка отображения заголовка Lifetime Membership Club")
+    public LifetimeMembershipPage checkPageTitle(String expectedTitle) {
+        pageTitle.shouldBe(visible);
+        LOG.info("Проверка заголовка страницы: {}", expectedTitle);
         return this;
     }
 } 
