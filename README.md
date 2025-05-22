@@ -30,8 +30,21 @@ mvn clean test -Dbrowser=firefox
 # Edge
 mvn clean test -Dbrowser=edge
 ```
+## Авторизация: передача логина и пароля
+Для тестов, требующих авторизации, логин и пароль можно передать двумя способами:
+
+- ## Через параметры JVM
+```bash
+mvn clean test -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
+```
+
+- ## Через переменные окружения
+```bash
+$env:USERNAME = "angular"; $env:PASSWORD = "password"; mvn clean test
+```
+> ⚠️ Если значения не заданы, тесты завершатся с ошибкой `IllegalStateException`.
 
 ### Комбинация параметров
 ```bash
-mvn clean test -Dtest=<Выбранный тест класс> -Dbrowser=<Выбранный браузер> -DbaseUrl=<Ваш Url>
+mvn clean test -Dtest=<Выбранный тест класс> -Dbrowser=<Выбранный браузер> -DbaseUrl=<Ваш Url> -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
 ```
