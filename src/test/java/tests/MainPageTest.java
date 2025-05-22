@@ -1,19 +1,27 @@
 package tests;
 
+import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Description;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.MainPage;
 import pages.LifetimeMembershipPage;
 
-import static com.codeborne.selenide.Selenide.page;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 public class MainPageTest extends BaseTest {
+    @BeforeMethod
+    public void openMainPage() {
+        open(Configuration.baseUrl);
+        MainPage mainPage = new MainPage();
+        mainPage.disablePopup();
+    }
 
     @Test
     @Description("Проверка открытия главной страницы и отображения основных элементов")
     public void mainElementsVisibilityTest() {
         MainPage mainPage = page(MainPage.class);
+        sleep(5000);
         mainPage.checkVisibilityHeader()
                 .checkVisibilityNav()
                 .checkVisibilityRegisterButton()
@@ -32,7 +40,9 @@ public class MainPageTest extends BaseTest {
     @Description("Проверка навигации по слайдам в блоке 'Most Popular Software Testing Courses'")
     public void coursesNavigationTest() {
         MainPage mainPage = page(MainPage.class);
-        mainPage.checkCoursesNavigation();
+        mainPage.checkVisibilityCoursesNavigation()
+                .activateSwiper()
+                .checkSwitchingCourses();
     }
 
     @Test

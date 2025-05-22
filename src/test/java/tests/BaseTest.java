@@ -1,11 +1,9 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
-import io.qameta.allure.Description;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import pages.MainPage;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -17,8 +15,13 @@ public class BaseTest {
         Configuration.browserSize = "maximized";
         Configuration.downloadsFolder = "target/downloads";
         Configuration.headless = false;
-        open(Configuration.baseUrl);
+        Configuration.pageLoadStrategy = "eager";
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
+        Configuration.browserCapabilities = options;
     }
+
 
     @AfterClass
     public void tearDown() {

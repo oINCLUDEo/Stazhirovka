@@ -1,6 +1,5 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
