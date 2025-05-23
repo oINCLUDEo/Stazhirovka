@@ -1,8 +1,6 @@
 package tests;
 
-import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.*;
-import org.openqa.selenium.TimeoutException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,7 +9,6 @@ import helpers.LoginPageMessages;
 import helpers.TestConfig;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.url;
 import static helpers.AssertHelper.assertEqualsWithMessage;
 import static helpers.GenerateData.*;
 
@@ -76,12 +73,8 @@ public class LoginPageTest extends BaseTest {
     public void universalLoginTest(String username, String password, String description, String expectedUrl) {
         LoginPage loginPage = page(LoginPage.class);
         loginPage.enterCredentials(username, password, description)
-                .clickLogin();
-        try {
-            Wait().until(driver -> url().equals(expectedUrl));
-        } catch (TimeoutException e) {
-            throw new AssertionError("Ожидание URL не сработало. Ожидалось: " + expectedUrl + ", но был: " + url(), e);
-        }
+                .clickLogin()
+                .checkUrl(expectedUrl);
     }
 
     @Test(dependsOnMethods = "successfulLoginTest")
