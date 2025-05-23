@@ -8,4 +8,9 @@ public class AssertHelper {
                 String.format("%s не совпадает с ожидаемым. Ожидалось: '%s', получено: '%s'",
                         fieldName, expected, actual));
     }
+
+    public static void assertEqualsWithMessage(String expected, String actual) {
+        String defaultFieldName = "Значение";
+        assertEqualsWithMessage(expected, actual, defaultFieldName);
+    }
 }

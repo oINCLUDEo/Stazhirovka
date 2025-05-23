@@ -37,11 +37,11 @@ public class LoginPageTest extends BaseTest {
     @Description("Проверка успешной авторизации")
     @Severity(SeverityLevel.BLOCKER)
     public void successfulLoginTest() {
-        loginPage.enterCredentials( TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
+        loginPage.enterCredentials(TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage, "Текст сообщения об успешной авторизации");
+        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class LoginPageTest extends BaseTest {
                 .clickLogin();
         String actualErrorMessage = loginPage.getErrorMessageText();
         String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage, "Текст сообщения об ошибке авторизации");
+        assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage);
     }
 
     @Test(dependsOnMethods = "successfulLoginTest")
@@ -65,7 +65,7 @@ public class LoginPageTest extends BaseTest {
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage, "Текст сообщения об успешной авторизации");
+        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
         loginPage.logout();
     }
 } 
