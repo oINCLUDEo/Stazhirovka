@@ -1,7 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,6 +17,8 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.AssertHelper.assertEqualsWithMessage;
 import static org.testng.Assert.assertEquals;
 
+@Epic("Публичная часть сайта")
+@Feature("Главная страница")
 public class MainPageTest extends BaseTest {
     private MainPage mainPage;
 
@@ -28,7 +30,9 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверка открытия главной страницы и отображения основных элементов")
+    @Story("Пользователь открывает главную страницу и видит ключевые элементы интерфейса")
+    @Description("Проверка открытия главной страницы и отображения основных элементов: хедера, навигации, кнопки регистрации, секции курсов и футера")
+    @Severity(SeverityLevel.CRITICAL)
     public void mainElementsVisibilityTest() {
         mainPage.checkVisibilityHeader()
                 .checkVisibilityNav()
@@ -38,7 +42,9 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверка хедера с контактной информацией")
+    @Story("Пользователь просматривает контактную информацию в шапке сайта")
+    @Description("Проверка хедера с контактной информацией и корректности ссылок")
+    @Severity(SeverityLevel.NORMAL)
     public void headerContactInfoTest() {
         mainPage.checkVisibilityHeader();
         MainPage.HeaderContactData headerData = mainPage.getHeaderContactData();
@@ -59,7 +65,9 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверка навигации по слайдам в блоке 'Most Popular Software Testing Courses'")
+    @Story("Пользователь переключает слайды в блоке популярных курсов")
+    @Description("Проверка работы стрелок навигации в слайдере блока 'Most Popular Software Testing Courses'")
+    @Severity(SeverityLevel.NORMAL)
     public void coursesNavigationTest() {
         WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(7));
         mainPage.checkVisibilityCoursesNavigation()
@@ -75,7 +83,9 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверка футера с контактной информацией")
+    @Story("Пользователь просматривает контактные данные в футере")
+    @Description("Проверка корректности отображения контактной информации в футере сайта")
+    @Severity(SeverityLevel.NORMAL)
     public void footContactInfoTest() {
         mainPage.checkVisibilityFooter();
         MainPage.FooterContactData footerData = mainPage.getFooterContactData();
@@ -87,13 +97,18 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверка навигационного меню при прокрутке")
+    @Story("Пользователь скроллит страницу и ожидает, что меню останется видимым")
+    @Description("Проверка отображения навигационного меню при прокрутке страницы ниже." +
+            "Меню должно оставаться видимым после прокрутки страницы")
+    @Severity(SeverityLevel.MINOR)
     public void navMenuVisibilityWhenScrollTest() {
         mainPage.checkNavigationWhenScrollDown();
     }
 
     @Test
+    @Story("Пользователь переходит в раздел Lifetime Membership через меню")
     @Description("Проверка перехода на страницу Lifetime Membership через меню All courses")
+    @Severity(SeverityLevel.NORMAL)
     public void navigationMenuRedirectTest() {
         LifetimeMembershipPage lifetimeMembershipPage = page(LifetimeMembershipPage.class);
         mainPage.navigateToLifetimeMembership();

@@ -48,3 +48,11 @@ $env:USERNAME = "angular"; $env:PASSWORD = "password"; mvn clean test
 ```bash
 mvn clean test -Dtest=<Выбранный тест класс> -Dbrowser=<Выбранный браузер> -DbaseUrl=<Ваш Url> -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
 ```
+## 📊 Allure отчёты
+
+### Генерация отчёта:
+
+```bash
+# Генерация и открытие отчёта
+allure serve target/allure-results
+```
