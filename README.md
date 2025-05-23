@@ -12,6 +12,18 @@ mvn clean test
 mvn clean test -Dtest=MainPageTest
 ```
 
+## Запуск сьютов
+
+- ## test_suite.xml
+```bash
+mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password
+```
+
+- ## universal_login_suite.xml
+```bash
+mvn clean test -DsuiteXmlFile="src/test/resources/universal_login_suite.xml" -Dusername=angular -Dpassword=password
+```
+
 ## Параметры запуска
 
 ### Базовый URL
@@ -47,4 +59,12 @@ $env:USERNAME = "angular"; $env:PASSWORD = "password"; mvn clean test
 ### Комбинация параметров
 ```bash
 mvn clean test -Dtest=<Выбранный тест класс> -Dbrowser=<Выбранный браузер> -DbaseUrl=<Ваш Url> -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
+```
+## 📊 Allure отчёты
+
+### Генерация отчёта:
+
+```bash
+# Генерация и открытие отчёта
+allure serve target/allure-results
 ```

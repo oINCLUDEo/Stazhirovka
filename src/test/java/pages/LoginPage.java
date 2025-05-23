@@ -2,9 +2,13 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.FindBy;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.Wait;
+import static com.codeborne.selenide.WebDriverRunner.url;
+import static helpers.AssertHelper.assertEqualsWithMessage;
 
 public class LoginPage {
     @FindBy(id = "username")
@@ -47,6 +51,16 @@ public class LoginPage {
     @Step("Нажатие на кнопку Login")
     public LoginPage clickLogin() {
         loginButton.shouldBe(enabled).click();
+        return this;
+    }
+
+    @Step("Проверка url на соответствие: {0}")
+    public LoginPage checkUrl(String expectedUrl) {
+        try {
+            Wait().until(driver -> url().equals(expectedUrl));
+        } catch (TimeoutException e) {
+            assertEqualsWithMessage(expectedUrl, url());
+        }
         return this;
     }
 
