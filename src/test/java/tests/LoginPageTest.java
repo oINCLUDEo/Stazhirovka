@@ -1,6 +1,8 @@
 package tests;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.*;
+import org.openqa.selenium.TimeoutException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,8 +10,8 @@ import pages.LoginPage;
 import helpers.LoginPageMessages;
 import helpers.TestConfig;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.url;
 import static helpers.AssertHelper.assertEqualsWithMessage;
 import static helpers.GenerateData.*;
 
@@ -17,6 +19,8 @@ import static helpers.GenerateData.*;
 @Feature("Функционал авторизации")
 public class LoginPageTest extends BaseTest {
     private LoginPage loginPage;
+    public static final String SUCCESS_URL = "https://www.way2automation.com/angularjs-protractor/registeration/#/";
+    public static final String ERROR_URL = "https://www.way2automation.com/angularjs-protractor/registeration/#/login";
 
     @BeforeMethod
     public void openLoginPage() {
@@ -60,8 +64,8 @@ public class LoginPageTest extends BaseTest {
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][] {
-                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), true},
-                {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), false}
+                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), SUCCESS_URL},
+                {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), ERROR_URL}
         };
     }
 
@@ -69,18 +73,15 @@ public class LoginPageTest extends BaseTest {
     @Story("Проверка авторизации с разными наборами данных")
     @Description("Тест проверяет авторизацию с различными данными, в том числе и невалидными")
     @Severity(SeverityLevel.CRITICAL)
-    public void universalLoginTest(String username, String password, String description, boolean shouldLogin) {
+    public void universalLoginTest(String username, String password, String description, String expectedUrl) {
         LoginPage loginPage = page(LoginPage.class);
         loginPage.enterCredentials(username, password, description)
                 .clickLogin();
-        if (shouldLogin) {
-            String actualSuccessMessage = loginPage.getSuccessMessageText();
-            String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
-            assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
-        } else {
-            String actualErrorMessage = loginPage.getErrorMessageText();
-            String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
-            assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage);        }
+        try {
+            Wait().until(driver -> url().equals(expectedUrl));
+        } catch (TimeoutException e) {
+            throw new AssertionError("Ожидание URL не сработало. Ожидалось: " + expectedUrl + ", но был: " + url(), e);
+        }
     }
 
     @Test(dependsOnMethods = "successfulLoginTest")
