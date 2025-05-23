@@ -3,12 +3,28 @@
 <suite name="Way2Automation Test Suite">
     <test name="Main Page Tests">
         <classes>
-            <class name="tests.MainPageTest"/>
+            <class name="tests.MainPageTest">
+                <methods>
+                    <include name="mainElementsVisibilityTest"/>
+                    <include name="headerContactInfoTest"/>
+                    <include name="coursesNavigationTest"/>
+                    <include name="footContactInfoTest"/>
+                    <include name="navMenuVisibilityWhenScrollTest"/>
+                    <include name="navigationMenuRedirectTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="Login Page Tests">
         <classes>
-            <class name="tests.LoginPageTest"/>
+            <class name="tests.LoginPageTest">
+                <methods>
+                    <include name="loginFieldsAndButtonStateWithEmptyFieldsTest"/>
+                    <include name="successfulLoginTest"/>
+                    <include name="invalidLoginTest"/>
+                    <include name="logoutTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

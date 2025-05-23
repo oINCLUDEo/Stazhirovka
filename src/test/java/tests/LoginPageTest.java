@@ -2,6 +2,7 @@ package tests;
 
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import helpers.LoginPageMessages;
@@ -54,6 +55,32 @@ public class LoginPageTest extends BaseTest {
         String actualErrorMessage = loginPage.getErrorMessageText();
         String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
         assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage);
+    }
+
+    @DataProvider(name = "loginData")
+    public Object[][] loginData() {
+        return new Object[][] {
+                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), true},
+                {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), false}
+        };
+    }
+
+    @Test(dataProvider = "loginData")
+    @Story("Проверка авторизации с разными наборами данных")
+    @Description("Тест проверяет авторизацию с различными данными, в том числе и невалидными")
+    @Severity(SeverityLevel.CRITICAL)
+    public void universalLoginTest(String username, String password, String description, boolean shouldLogin) {
+        LoginPage loginPage = page(LoginPage.class);
+        loginPage.enterCredentials(username, password, description)
+                .clickLogin();
+        if (shouldLogin) {
+            String actualSuccessMessage = loginPage.getSuccessMessageText();
+            String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
+            assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
+        } else {
+            String actualErrorMessage = loginPage.getErrorMessageText();
+            String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
+            assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage);        }
     }
 
     @Test(dependsOnMethods = "successfulLoginTest")

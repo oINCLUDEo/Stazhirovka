@@ -12,6 +12,18 @@ mvn clean test
 mvn clean test -Dtest=MainPageTest
 ```
 
+## Запуск сьютов
+
+- ## test_suite.xml
+```bash
+mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password
+```
+
+- ## universal_login_suite.xml
+```bash
+mvn clean test -DsuiteXmlFile="src/test/resources/universal_login_suite.xml" -Dusername=angular -Dpassword=password
+```
+
 ## Параметры запуска
 
 ### Базовый URL
