@@ -2,8 +2,10 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.*;
+import listeners.TestListener;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.MainPage;
 import pages.LifetimeMembershipPage;
@@ -16,7 +18,9 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.AssertHelper.assertEqualsWithMessage;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
+@Listeners(TestListener.class)
 @Epic("Публичная часть сайта")
 @Feature("Главная страница")
 public class MainPageTest extends BaseTest {
@@ -113,6 +117,24 @@ public class MainPageTest extends BaseTest {
         LifetimeMembershipPage lifetimeMembershipPage = page(LifetimeMembershipPage.class);
         mainPage.navigateToLifetimeMembership();
         lifetimeMembershipPage.getPageTitle().shouldHave(text(MainPageMessages.LIFETIME_MEMBERSHIP_TITLE));
+    }
 
+    @Test(groups = "expectedFailures")
+    @Story("Искусственное падение")
+    @Description("Тест создан специально для проверки снятия скриншота при падении теста")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void failingScreenshotTest() {
+        assertTrue(false, "Этот тест должен упасть, чтобы проверить скриншот");
+    }
+
+
+    @Test(groups = "expectedFailures")
+    @Story("Искусственное падение")
+    @Description("Тест проверяет имя директора. Специально подаются невалидные данные для проверки скриншотов")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void failingCheckDirectorNameTest() {
+        mainPage.checkVisibilityDirectorName();
+        String actualDirectorName = mainPage.getDirectorName();
+        assertEqualsWithMessage(MainPageMessages.FAKE_DIRECTOR_NAME, actualDirectorName, "Имя директора не совпадает");
     }
 } 

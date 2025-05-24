@@ -7,7 +7,8 @@ public class MainPageMessages {
     public static final String ALL_COURSES_MENU_ITEM = "All Courses";
     public static final String LIFETIME_MEMBERSHIP_MENU_ITEM = "Lifetime Membership";
     public static final String LIFETIME_MEMBERSHIP_TITLE = "Lifetime Membership Club";
-    
+    public static final String FAKE_DIRECTOR_NAME = "Nikita Zhuklin";
+
     // Header
     public static final String HEADER_WHATSAPP_1 = "+919711-111-558";
     public static final String HEADER_WHATSAPP_2 = "+919711-191-558";
@@ -34,4 +35,4 @@ public class MainPageMessages {
     public static final String FOOTER_PHONE_2_HREF = "tel:9711191558";
     public static final String FOOTER_EMAIL_1_HREF = "mailto:trainer@way2automation.com";
     public static final String FOOTER_EMAIL_2_HREF = "mailto:seleniumcoaching@gmail.com";
-} 
+}

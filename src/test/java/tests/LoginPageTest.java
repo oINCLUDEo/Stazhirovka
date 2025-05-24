@@ -4,14 +4,17 @@ import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.annotations.Listeners;
 import pages.LoginPage;
 import helpers.LoginPageMessages;
 import helpers.TestConfig;
+import listeners.TestListener;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.AssertHelper.assertEqualsWithMessage;
 import static helpers.GenerateData.*;
 
+@Listeners(TestListener.class)
 @Epic("Авторизация пользователей")
 @Feature("Функционал авторизации")
 public class LoginPageTest extends BaseTest {
@@ -88,5 +91,15 @@ public class LoginPageTest extends BaseTest {
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
         assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
         loginPage.logout();
+    }
+
+    @Test(groups = "expectedFailures")
+    @Story("Искусственное падение")
+    @Description("Тест создан специально для проверки снятия скриншота при падении теста")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void failingLoginTest() {
+        loginPage.enterCredentials(generateWrongUsername(), generateWrongPassword(), generateUsernameDescription())
+                .clickLogin()
+                .checkUrl(SUCCESS_URL);
     }
 } 
