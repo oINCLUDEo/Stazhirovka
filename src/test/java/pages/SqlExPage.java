@@ -73,4 +73,23 @@ public class SqlExPage {
         }
         return this;
     }
+
+    @Step("Снятие фокуса с поля ввода")
+    public SqlExPage removeFocusFromInput(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("document.activeElement.blur();");
+        return this;
+    }
+
+    @Step("Проверка снятия фокуса с элемента")
+    public boolean isFocusRemovedFromElement(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (boolean) js.executeScript("return document.activeElement !== arguments[0];", loginInput);
+    }
+
+    @Step("Проверка наличия скролла на странице")
+    public boolean isScroll(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (boolean) js.executeScript("return document.documentElement.scrollHeight > document.documentElement.clientHeight;");
+    }
 }

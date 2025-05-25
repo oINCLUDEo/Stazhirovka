@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Parallel Test Suite" parallel="tests" thread-count="3">
+    <test name="Main Page Test Group">
+        <classes>
+            <class name="tests.MainPageTest"/>
+        </classes>
+    </test>
+    <test name="Login Test Group">
+        <classes>
+            <class name="tests.LoginPageTest">
+                <methods>
+                    <include name="loginFieldsAndButtonStateWithEmptyFieldsTest"/>
+                    <include name="successfulLoginTest"/>
+                    <include name="invalidLoginTest"/>
+                    <include name="logoutTest"/>
+                    <include name="failingLoginTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="SQL-EX Page Tests">
+        <classes>
+            <class name="tests.SqlExTest"/>
+        </classes>
+    </test>
+</suite>

@@ -25,7 +25,7 @@ public class LoginPageTest extends BaseTest {
 
     @BeforeMethod
     public void openLoginPage() {
-        open("angularjs-protractor/registeration/#/login");
+        open(Configuration.baseUrl + "angularjs-protractor/registeration/#/login");
         loginPage = page(LoginPage.class);
     }
 
