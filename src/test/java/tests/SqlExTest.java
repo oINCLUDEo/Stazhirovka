@@ -29,11 +29,6 @@ public class SqlExTest extends BaseTest {
         clearCookiesFile();
     }
 
-    @AfterMethod
-    public void tearDown() {
-        closeWebDriver();
-    }
-
     @Test(invocationCount = 2)
     @Story("Пользователь авторизуется с использованием куки или через поля ввода, если куки отсутствуют")
     @Description("Проверка авторизации на сайте с использованием сохраненных куки")
