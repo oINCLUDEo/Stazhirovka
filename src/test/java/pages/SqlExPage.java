@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.Set;
 
-import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CookieManager.loadCookiesFromFile;

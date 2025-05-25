@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.Configuration;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -19,8 +20,8 @@ import static helpers.GenerateData.*;
 @Feature("Функционал авторизации")
 public class LoginPageTest extends BaseTest {
     private LoginPage loginPage;
-    public static final String SUCCESS_URL = "https://www.way2automation.com/angularjs-protractor/registeration/#/";
-    public static final String ERROR_URL = "https://www.way2automation.com/angularjs-protractor/registeration/#/login";
+    public static final String SUCCESS_URL = "angularjs-protractor/registeration/#/";
+    public static final String ERROR_URL = "angularjs-protractor/registeration/#/login";
 
     @BeforeMethod
     public void openLoginPage() {
@@ -64,8 +65,8 @@ public class LoginPageTest extends BaseTest {
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][] {
-                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), SUCCESS_URL},
-                {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), ERROR_URL}
+                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), Configuration.baseUrl + SUCCESS_URL},
+                {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), Configuration.baseUrl + ERROR_URL}
         };
     }
 
@@ -74,7 +75,6 @@ public class LoginPageTest extends BaseTest {
     @Description("Тест проверяет авторизацию с различными данными, в том числе и невалидными")
     @Severity(SeverityLevel.CRITICAL)
     public void universalLoginTest(String username, String password, String description, String expectedUrl) {
-        LoginPage loginPage = page(LoginPage.class);
         loginPage.enterCredentials(username, password, description)
                 .clickLogin()
                 .checkUrl(expectedUrl);
@@ -100,6 +100,6 @@ public class LoginPageTest extends BaseTest {
     public void failingLoginTest() {
         loginPage.enterCredentials(generateWrongUsername(), generateWrongPassword(), generateUsernameDescription())
                 .clickLogin()
-                .checkUrl(SUCCESS_URL);
+                .checkUrl(Configuration.baseUrl + SUCCESS_URL);
     }
 } 

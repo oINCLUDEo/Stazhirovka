@@ -6,7 +6,6 @@ import org.testng.annotations.*;
 import pages.SqlExPage;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CookieManager.*;
 
 public class SqlExTest extends BaseTest {
