@@ -8,7 +8,14 @@
     </test>
     <test name="Login Page Tests">
         <classes>
-            <class name="tests.LoginPageTest"/>
+            <class name="tests.LoginPageTest">
+                <methods>
+                    <include name="loginFieldsAndButtonStateWithEmptyFieldsTest"/>
+                    <include name="successfulLoginTest"/>
+                    <include name="invalidLoginTest"/>
+                    <include name="logoutTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
