@@ -1,16 +1,16 @@
 package tests;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.qameta.allure.*;
 import org.testng.annotations.*;
 import pages.SqlExPage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.CookieManager.*;
 
+@Epic("Авторизация пользователей")
+@Feature("Авторизация на сайт SQL-EX")
 public class SqlExTest extends BaseTest {
     private SqlExPage sqlExPage;
-    private static final Logger LOG = LoggerFactory.getLogger(SqlExTest.class);
     private static final String BASE_URL = "https://www.sql-ex.ru";
 
     @BeforeMethod
@@ -30,6 +30,9 @@ public class SqlExTest extends BaseTest {
     }
 
     @Test(invocationCount = 2)
+    @Story("Авторизация с использованием куки")
+    @Description("Проверка авторизации на сайте с использованием сохраненных куки")
+    @Severity(SeverityLevel.CRITICAL)
     public void cookiesLoginTest() {
         sqlExPage.checkLoginFormVisibility();
         sqlExPage.loginWithCookiesOrCredentials();

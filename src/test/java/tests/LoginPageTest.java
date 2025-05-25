@@ -72,7 +72,7 @@ public class LoginPageTest extends BaseTest {
 
     @Test(dataProvider = "loginData")
     @Story("Проверка авторизации с разными наборами данных")
-    @Description("Тест проверяет авторизацию с различными данными, в том числе и невалидными")
+    @Description("Проверка авторизации с различными данными, в том числе и невалидными")
     @Severity(SeverityLevel.CRITICAL)
     public void universalLoginTest(String username, String password, String description, String expectedUrl) {
         loginPage.enterCredentials(username, password, description)

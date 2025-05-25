@@ -4,7 +4,12 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tests.SqlExTest;
 
 import java.util.Set;
 
@@ -14,6 +19,8 @@ import static helpers.CookieManager.loadCookiesFromFile;
 import static helpers.CookieManager.saveCookiesToFile;
 
 public class SqlExPage {
+    private static final Logger LOG = LoggerFactory.getLogger(SqlExPage.class);
+
     @FindBy(name = "login")
     private SelenideElement login;
     @FindBy(name = "psw")
@@ -66,6 +73,31 @@ public class SqlExPage {
                 getWebDriver().manage().addCookie(new Cookie(cookie.getName(), cookie.getValue()));
             }
         }
+        return this;
+    }
+
+    @Step("Снятие фокуса с поля ввода")
+    public SqlExPage removeFocusFromInput(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("document.activeElement.blur();");
+        return this;
+    }
+
+    @Step("Проверка снятия фокуса с элемента")
+    public SqlExPage isFocusRemovedFromElement(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        boolean isBlurred = (boolean) js.executeScript("return document.activeElement !== arguments[0];", login);
+        assert isBlurred : "Фокус не был снят с элемента";
+        LOG.info("Фокус успешно снят с элемента");
+        return this;
+    }
+
+    @Step("Проверка наличия скролла на странице")
+    public SqlExPage isScroll(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        boolean isScroll = (boolean) js.executeScript("return document.documentElement.scrollHeight > document.documentElement.clientHeight;");
+        assert isScroll : "Скролл отсутствует на странице";
+        LOG.info("Скролл присутствует на странице");
         return this;
     }
 }
