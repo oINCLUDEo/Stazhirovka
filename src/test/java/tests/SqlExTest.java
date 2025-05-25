@@ -1,13 +1,16 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import pages.SqlExPage;
 
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static helpers.CookieManager.*;
 import static helpers.TestConfig.getSqlExPassword;
 import static helpers.TestConfig.getSqlExUsername;
+import static org.testng.Assert.assertTrue;
 
 @Epic("Авторизация пользователей")
 @Feature("Авторизация на сайт SQL-EX")
@@ -32,7 +35,7 @@ public class SqlExTest extends BaseTest {
     }
 
     @Test(invocationCount = 2)
-    @Story("Авторизация с использованием куки")
+    @Story("Пользователь авторизуется с использованием куки или через поля ввода, если куки отсутствуют")
     @Description("Проверка авторизации на сайте с использованием сохраненных куки")
     @Severity(SeverityLevel.CRITICAL)
     public void cookiesLoginTest() {
@@ -40,6 +43,18 @@ public class SqlExTest extends BaseTest {
         sqlExPage.loginWithCookiesOrCredentials(getSqlExUsername(), getSqlExPassword());
         refresh();
         sqlExPage.checkSuccessfulLogin();
+    }
+
+    @Test
+    @Story("Пользователь открывает SQL-EX и убирает фокус с поля")
+    @Description("Тест проверяет снятие фокуса с элемента и наличие скролла на странице")
+    @Severity(SeverityLevel.MINOR)
+    public void checkFocusAndScrollTest() {
+        WebDriver driver = getWebDriver();
+        sqlExPage.removeFocusFromInput(driver)
+                .isFocusRemovedFromElement(driver);
+        assertTrue(sqlExPage.isFocusRemovedFromElement(driver), "Фокус не был снят с элемента");
+        assertTrue(sqlExPage.isScroll(driver), "Скролл должен быть на странице");
     }
 }
 
