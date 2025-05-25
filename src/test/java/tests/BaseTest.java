@@ -6,15 +6,14 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
+
+import java.net.URL;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.AllureHelper.attachPageSourceToAllure;
@@ -25,11 +24,21 @@ public class BaseTest {
 
     @BeforeClass
     public void setUp() {
-        Configuration.baseUrl = System.getProperty("baseUrl", "https://www.way2automation.com/");
+        Configuration.baseUrl = "https://www.way2automation.com/";
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.downloadsFolder = "target/downloads";
         Configuration.headless = false;
         Configuration.pageLoadStrategy = "eager";
+        Configuration.remoteConnectionTimeout = 5000;
+        Configuration.remoteReadTimeout = 5000;
+        Configuration.pageLoadTimeout = 10000;
+
+        String gridUrl = System.getProperty("gridUrl");
+        if (gridUrl != null && !gridUrl.isEmpty()) {
+            Configuration.remote = gridUrl;
+            LOG.info("Используем Selenium Grid по адресу: {}", gridUrl);
+        }
+
         String browser = Configuration.browser.toLowerCase();
         switch (browser) {
             case "chrome":
@@ -63,9 +72,10 @@ public class BaseTest {
         );
     }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown() {
         closeWebDriver();
+        clearBrowserCookies();
     }
 
     @AfterMethod
