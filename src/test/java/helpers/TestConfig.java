@@ -1,25 +1,32 @@
 package helpers;
 
 public class TestConfig {
-    public static String getUsername() {
-        String username = System.getProperty("username");
-        if (username == null) {
-            username = System.getenv("USERNAME");
-        }
-        if (username == null) {
-            throw new IllegalStateException("Имя пользователя не указано. Укажите его через -Dusername=... или задайте переменную окружения USERNAME");
-        }
-        return username;
+    public static String getWay2AutomationUsername() {
+        return getCredential("username", "USERNAME", "Имя пользователя для Way2Automation");
     }
 
-    public static String getPassword() {
-        String password = System.getProperty("password");
-        if (password == null) {
-            password = System.getenv("PASSWORD");
+    public static String getWay2AutomationPassword() {
+        return getCredential("password", "PASSWORD", "Пароль для Way2Automation");
+    }
+
+    public static String getSqlExUsername() {
+        return getCredential("sqlExUsername", "SQLEX_USERNAME", "Имя пользователя для SQL-Ex");
+    }
+
+    public static String getSqlExPassword() {
+        return getCredential("sqlExPassword", "SQLEX_PASSWORD", "Пароль для SQL-Ex");
+    }
+
+    private static String getCredential(String systemPropertyKey, String envVarKey, String description) {
+        String value = System.getProperty(systemPropertyKey);
+        if (value == null) {
+            value = System.getenv(envVarKey);
         }
-        if (password == null) {
-            throw new IllegalStateException("Пароль не указан. Укажите его через -Dpassword=... или задайте переменную окружения PASSWORD");
+        if (value == null) {
+            throw new IllegalStateException(
+                    String.format("%s не указано. Укажите через -D%s=... или задайте переменную окружения %s",
+                            description, systemPropertyKey, envVarKey));
         }
-        return password;
+        return value;
     }
 }

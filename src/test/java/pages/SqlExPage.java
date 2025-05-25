@@ -1,6 +1,5 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Cookie;
@@ -9,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tests.SqlExTest;
 
 import java.util.Set;
 
@@ -22,9 +20,9 @@ public class SqlExPage {
     private static final Logger LOG = LoggerFactory.getLogger(SqlExPage.class);
 
     @FindBy(name = "login")
-    private SelenideElement login;
+    private SelenideElement loginInput;
     @FindBy(name = "psw")
-    private SelenideElement password;
+    private SelenideElement passwordInput;
     @FindBy(name = "subm1")
     private SelenideElement loginButton;
     @FindBy(css = "a[href*='personal.php']")
@@ -34,16 +32,16 @@ public class SqlExPage {
 
     @Step("Проверка отображения элементов")
     public SqlExPage checkLoginFormVisibility() {
-        login.shouldBe(visible);
-        password.shouldBe(visible);
+        loginInput.shouldBe(visible);
+        passwordInput.shouldBe(visible);
         loginButton.shouldBe(visible);
         return this;
     }
 
     @Step("Ввод данных для входа")
-    public SqlExPage enterCredentials() {
-        login.setValue("karlfras");
-        password.setValue("rec!oJA@jXC12&");
+    public SqlExPage enterCredentials(String username, String password) {
+        loginInput.setValue(username);
+        passwordInput.setValue(password);
         loginButton.click();
         return this;
     }
@@ -56,17 +54,17 @@ public class SqlExPage {
 
     @Step("Проверка успешности входа")
     public SqlExPage checkSuccessfulLogin() {
-        login.shouldNotBe(visible);
+        loginInput.shouldNotBe(visible);
         loginButton.shouldNotBe(visible);
-        password.shouldNotBe(visible);
+        passwordInput.shouldNotBe(visible);
         return this;
     }
 
     @Step("Авторизация с куками или вводом учетных данных")
-    public SqlExPage loginWithCookiesOrCredentials() {
+    public SqlExPage loginWithCookiesOrCredentials(String username, String password) {
         Set<Cookie> cookies = loadCookiesFromFile();
         if (cookies.isEmpty()) {
-            enterCredentials();
+            enterCredentials(username, password);
             saveCookiesToFile(getWebDriver().manage().getCookies());
         } else {
             for (Cookie cookie : cookies) {
@@ -86,7 +84,7 @@ public class SqlExPage {
     @Step("Проверка снятия фокуса с элемента")
     public SqlExPage isFocusRemovedFromElement(WebDriver driver) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        boolean isBlurred = (boolean) js.executeScript("return document.activeElement !== arguments[0];", login);
+        boolean isBlurred = (boolean) js.executeScript("return document.activeElement !== arguments[0];", loginInput);
         assert isBlurred : "Фокус не был снят с элемента";
         LOG.info("Фокус успешно снят с элемента");
         return this;

@@ -6,6 +6,8 @@ import pages.SqlExPage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.CookieManager.*;
+import static helpers.TestConfig.getSqlExPassword;
+import static helpers.TestConfig.getSqlExUsername;
 
 @Epic("Авторизация пользователей")
 @Feature("Авторизация на сайт SQL-EX")
@@ -35,7 +37,7 @@ public class SqlExTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void cookiesLoginTest() {
         sqlExPage.checkLoginFormVisibility();
-        sqlExPage.loginWithCookiesOrCredentials();
+        sqlExPage.loginWithCookiesOrCredentials(getSqlExUsername(), getSqlExPassword());
         refresh();
         sqlExPage.checkSuccessfulLogin();
     }

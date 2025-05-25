@@ -43,7 +43,7 @@ public class LoginPageTest extends BaseTest {
     @Description("Проверка успешной авторизации")
     @Severity(SeverityLevel.BLOCKER)
     public void successfulLoginTest() {
-        loginPage.enterCredentials(TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
+        loginPage.enterCredentials(TestConfig.getWay2AutomationUsername(), TestConfig.getWay2AutomationPassword(), generateUsernameDescription())
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
@@ -65,7 +65,7 @@ public class LoginPageTest extends BaseTest {
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][] {
-                {TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription(), Configuration.baseUrl + SUCCESS_URL},
+                {TestConfig.getWay2AutomationUsername(), TestConfig.getWay2AutomationPassword(), generateUsernameDescription(), Configuration.baseUrl + SUCCESS_URL},
                 {generateWrongUsername(), generateWrongPassword(), generateUsernameDescription(), Configuration.baseUrl + ERROR_URL}
         };
     }
@@ -85,7 +85,7 @@ public class LoginPageTest extends BaseTest {
     @Description("Проверка успешного разлогирования")
     @Severity(SeverityLevel.CRITICAL)
     public void logoutTest() {
-        loginPage.enterCredentials(TestConfig.getUsername(), TestConfig.getPassword(), generateUsernameDescription())
+        loginPage.enterCredentials(TestConfig.getWay2AutomationUsername(), TestConfig.getWay2AutomationPassword(), generateUsernameDescription())
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
