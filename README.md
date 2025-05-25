@@ -1,6 +1,6 @@
 # Tests Automation
 
-Проект автоматизации тестирования веб-приложения Way2Automation.
+Проект автоматизации тестирования веб-приложений: **Way2Automation** и **SQL-Ex**.
 
 ## Запуск тестов
 
@@ -16,7 +16,7 @@ mvn clean test -Dtest=MainPageTest
 
 - ## test_suite.xml
 ```bash
-mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password
+mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password -DsqlExUsername=sqluser -DsqlExPassword=sqlpass
 ```
 
 - ## universal_login_suite.xml
@@ -43,23 +43,50 @@ mvn clean test -Dbrowser=firefox
 mvn clean test -Dbrowser=edge
 ```
 ## Авторизация: передача логина и пароля
-Для тестов, требующих авторизации, логин и пароль можно передать двумя способами:
 
-- ## Через параметры JVM
+Тесты требуют логины и пароли для:
+
+- **Way2Automation**
+
+- **SQL-Ex (sql-ex.ru)**
+
+
+Параметры можно передать двумя способами:
+### Через параметры JVM
+
 ```bash
-mvn clean test -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
+mvn clean test 
+  -Dusername=<Логин Way2Automation>
+  -Dpassword=<Пароль Way2Automation>
+  -DsqlExUsername=<Логин SQL-Ex>
+  -DsqlExPassword=<Пароль SQL-Ex>
 ```
 
-- ## Через переменные окружения
-```bash
-$env:USERNAME = "angular"; $env:PASSWORD = "password"; mvn clean test
+### Через переменные окружения
+
+```powershell
+$env:USERNAME = "angular"
+$env:PASSWORD = "password"
+$env:SQLEX_USERNAME = "sqluser"
+$env:SQLEX_PASSWORD = "sqlpass"
+mvn clean test
 ```
-> ⚠️ Если значения не заданы, тесты завершатся с ошибкой `IllegalStateException`.
+
+> ⚠️ Если хотя бы одно значение не задано, соответствующие тесты завершатся с ошибкой `IllegalStateException`.
 
 ### Комбинация параметров
+
 ```bash
-mvn clean test -Dtest=<Выбранный тест класс> -Dbrowser=<Выбранный браузер> -DbaseUrl=<Ваш Url> -Dusername=<Ваш логин> -Dpassword=<Ваш пароль>
+mvn clean test
+  -Dtest=UniversalLoginTest
+  -Dbrowser=firefox
+  -DbaseUrl=https://www.way2automation.com/
+  -Dusername=angular
+  -Dpassword=password
+  -DsqlExUsername=sqluser
+  -DsqlExPassword=sqlpass
 ```
+
 ## 📊 Allure отчёты
 
 ### Генерация отчёта:

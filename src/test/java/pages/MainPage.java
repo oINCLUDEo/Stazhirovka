@@ -1,5 +1,6 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import helpers.MainPageMessages;
+import org.testng.reporters.jq.Main;
 
 import java.time.Duration;
 
@@ -59,29 +61,28 @@ public class MainPage {
     private SelenideElement closePopupButton;
     @FindBy(css = ".swiper-slide")
     private ElementsCollection swiperSlide;
+    @FindBy(css = ".swiper-slide.swiper-slide-active")
+    private ElementsCollection activeSlides;
+    @FindBy(css = ".swiper-slide.swiper-slide-next")
+    private ElementsCollection nextSlides;
+    @FindBy(css = ".swiper-slide.swiper-slide-prev")
+    private ElementsCollection prevSlides;
+    @FindBy(xpath = "//h2[contains(text(), 'Director of IT Trainings')]")
+    private SelenideElement directorTitle;
 
-    public SelenideElement getActiveSlide() {
-        return $$(".swiper-slide.swiper-slide-active").filter(visible).first();
-    }
-
-    public SelenideElement getNextSlide() {
-        return $$(".swiper-slide.swiper-slide-next").filter(visible).first();
-    }
-
-    public SelenideElement getPrevSlide() {
-        return $$(".swiper-slide.swiper-slide-prev").filter(visible).first();
-    }
+    public SelenideElement getActiveSlide() { return activeSlides.filter(visible).first(); }
+    public SelenideElement getNextSlide() { return nextSlides.filter(visible).first(); }
+    public SelenideElement getPrevSlide() { return prevSlides.filter(visible).first(); }
     public String getActiveSlideIndex() {
         return getActiveSlide().getAttribute("data-swiper-slide-index");
     }
-
     public String getNextSlideIndex() {
         return getNextSlide().getAttribute("data-swiper-slide-index");
     }
-
     public String getPrevSlideIndex() {
         return getPrevSlide().getAttribute("data-swiper-slide-index");
     }
+    public String getDirectorName() { return directorTitle.getText(); }
 
     @Step("Проверка отображения хедера")
     public MainPage checkVisibilityHeader() {
@@ -251,6 +252,12 @@ public class MainPage {
             whatsapp1Href, whatsapp2Href, phoneHref, skypeHref, emailHref,
             facebookHref, linkedinHref, googlePlusHref, youtubeHref
         );
+    }
+
+    @Step("Получение отображения имени директора")
+    public MainPage checkVisibilityDirectorName() {
+        directorTitle.shouldBe(visible);
+        return this;
     }
 
     public static class FooterContactData {
