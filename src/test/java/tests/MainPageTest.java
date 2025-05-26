@@ -2,10 +2,8 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.*;
-import listeners.TestListener;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.MainPage;
 import pages.LifetimeMembershipPage;
@@ -20,7 +18,6 @@ import static helpers.AssertHelper.assertEqualsWithMessage;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-@Listeners(TestListener.class)
 @Epic("Публичная часть сайта")
 @Feature("Главная страница")
 public class MainPageTest extends BaseTest {

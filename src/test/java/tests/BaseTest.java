@@ -3,22 +3,23 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
+import listeners.TestListener;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-
-import java.net.URL;
+import org.testng.annotations.Listeners;
+import org.testng.reporters.FailedReporter;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.AllureHelper.attachPageSourceToAllure;
 import static helpers.AllureHelper.attachScreenshotToAllure;
 
+@Listeners({TestListener.class, FailedReporter.class})
 public class BaseTest {
     private static final Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
@@ -73,17 +74,13 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown() {
-        closeWebDriver();
-        clearBrowserCookies();
-    }
-
-    @AfterMethod
     public void afterTest(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
             LOG.info("Тест {} упал, создаем скриншот", result.getName());
             attachScreenshotToAllure();
             attachPageSourceToAllure();
         }
+        closeWebDriver();
+        clearBrowserCookies();
     }
 }
