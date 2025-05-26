@@ -45,4 +45,11 @@
             <class name="tests.SqlExTest"/>
         </classes>
     </test>
+    <test name="Other Tests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.FramesAndWindowsPageTest"/>
+            <class name="tests.DroppablePageTest"/>
+        </classes>
+    </test>
 </suite>
