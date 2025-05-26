@@ -1,6 +1,5 @@
 package listeners;
 
-import helpers.AllureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -26,9 +25,7 @@ public class TestListener implements ITestListener {
     }
 
     @Override
-    public void onTestSkipped(ITestResult result) {
-        LOG.warn("Тест пропущен: {}", result.getName());
-    }
+    public void onTestSkipped(ITestResult result) { LOG.warn("Тест пропущен: {} | Причина: {}", result.getName(), result.getSkipCausedBy()); }
 
     @Override
     public void onStart(ITestContext context) {
