@@ -5,11 +5,13 @@
         <listener class-name="listeners.RetryListener"/>
     </listeners>
     <test name="Main Page Tests">
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="tests.MainPageTest"/>
         </classes>
     </test>
     <test name="Login Page Tests">
+        <parameter name="browser" value="firefox"/>
         <classes>
             <class name="tests.LoginPageTest">
                 <methods>
@@ -22,6 +24,7 @@
         </classes>
     </test>
     <test name="Failing Page Tests">
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="tests.LoginPageTest">
                 <methods>
@@ -37,6 +40,7 @@
         </classes>
     </test>
     <test name="SQL-EX Page Tests">
+        <parameter name="browser" value="edge"/>
         <classes>
             <class name="tests.SqlExTest"/>
         </classes>
