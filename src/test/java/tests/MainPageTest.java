@@ -90,11 +90,11 @@ public class MainPageTest extends BaseTest {
     public void footContactInfoTest() {
         mainPage.checkVisibilityFooter();
         MainPage.FooterContactData footerData = mainPage.getFooterContactData();
-        assertEqualsWithMessage(MainPageMessages.WAY2AUTOMATION_ADDRESS, footerData.getAddress(), "Адрес");
-        assertEqualsWithMessage(MainPageMessages.FOOTER_PHONE_1, footerData.getPhone1(), "Тел. 1");
-        assertEqualsWithMessage(MainPageMessages.FOOTER_PHONE_2, footerData.getPhone2(), "Тел. 2");
-        assertEqualsWithMessage(MainPageMessages.FOOTER_EMAIL_1, footerData.getEmail1(), "Почта 1");
-        assertEqualsWithMessage(MainPageMessages.FOOTER_EMAIL_2, footerData.getEmail2(), "Почта 2");
+        assertEqualsWithMessage(footerData.getAddress(), MainPageMessages.WAY2AUTOMATION_ADDRESS, "Адрес");
+        assertEqualsWithMessage(footerData.getPhone1(), MainPageMessages.FOOTER_PHONE_1, "Тел. 1");
+        assertEqualsWithMessage(footerData.getPhone2(), MainPageMessages.FOOTER_PHONE_2, "Тел. 2");
+        assertEqualsWithMessage(footerData.getEmail1(), MainPageMessages.FOOTER_EMAIL_1, "Почта 1");
+        assertEqualsWithMessage(footerData.getEmail2(), MainPageMessages.FOOTER_EMAIL_2, "Почта 2");
     }
 
     @Test
@@ -132,6 +132,6 @@ public class MainPageTest extends BaseTest {
     public void failingCheckDirectorNameTest() {
         mainPage.checkVisibilityDirectorName();
         String actualDirectorName = mainPage.getDirectorName();
-        assertEqualsWithMessage(MainPageMessages.FAKE_DIRECTOR_NAME, actualDirectorName, "Имя директора не совпадает");
+        assertEqualsWithMessage(actualDirectorName, MainPageMessages.FAKE_DIRECTOR_NAME, "Имя директора не совпадает");
     }
 } 

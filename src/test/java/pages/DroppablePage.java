@@ -4,6 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.function.Supplier;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
@@ -20,6 +22,15 @@ public class DroppablePage {
         switchTo().frame(iframe);
         try {
             action.run();
+        } finally {
+            switchTo().defaultContent();
+        }
+    }
+
+    private <T> T withinFrame(Supplier<T> action) {
+        switchTo().frame(iframe);
+        try {
+            return action.get();
         } finally {
             switchTo().defaultContent();
         }
@@ -48,11 +59,8 @@ public class DroppablePage {
         return this;
     }
 
-    @Step("Проверка изменения текста droppableBox на 'Dropped'")
-    public DroppablePage checkDroppableTextChanged() {
-        withinFrame(() -> {
-            droppableBox.shouldHave(text("Dropped"));
-        });
-        return this;
+    @Step("Получение текста droppableBox")
+    public String getDroppableText() {
+        return withinFrame(() -> droppableBox.text());
     }
 }

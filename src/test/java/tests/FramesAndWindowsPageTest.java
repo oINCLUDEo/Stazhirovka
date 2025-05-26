@@ -4,7 +4,6 @@ import com.codeborne.selenide.Configuration;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.FramesAndWindowsPage;
-import pages.MainPage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -28,7 +27,6 @@ public class FramesAndWindowsPageTest extends BaseTest {
                 .switchToTab(1)
                 .clickNewTabLink()
                 .switchToTab(2);
-        assertEquals(getWebDriver().getWindowHandles().size(), 3,
-                "Должно быть открыто 3 вкладки");
+        assertEquals(getWebDriver().getWindowHandles().size(), 3, "Должно быть открыто 3 вкладки");
     }
 }
