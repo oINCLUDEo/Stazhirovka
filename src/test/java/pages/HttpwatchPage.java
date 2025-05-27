@@ -18,7 +18,7 @@ public class HttpwatchPage {
         return this;
     }
 
-    @Step("Проверка видимости ауентификационного изображения")
+    @Step("Проверка видимости аутентификационного изображения")
     public HttpwatchPage checkVisibilityAuthenticatedImage() {
         authenticatedImage.shouldBe(visible);
         return this;
