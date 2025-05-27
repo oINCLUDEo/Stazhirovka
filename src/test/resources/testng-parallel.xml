@@ -35,6 +35,8 @@
         <classes>
             <class name="tests.FramesAndWindowsPageTest"/>
             <class name="tests.DroppablePageTest"/>
+            <class name="tests.AlertPageTest"/>
+            <class name="tests.HttpwatchPageTest"/>
         </classes>
     </test>
 </suite>

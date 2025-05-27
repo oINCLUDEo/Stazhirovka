@@ -17,6 +17,14 @@ public class TestConfig {
         return getCredential("sqlExPassword", "SQLEX_PASSWORD", "Пароль для SQL-Ex");
     }
 
+    public static String getHttpWatchUsername() {
+        return getCredential("httpwatchUsername", "HTTPWATCH_USERNAME", "Имя пользователя для HttpWatch");
+    }
+
+    public static String getHttpWatchPassword() {
+        return getCredential("httpwatchPassword", "HTTPWATCH_PASSWORD", "Пароль для HttpWatch");
+    }
+
     private static String getCredential(String systemPropertyKey, String envVarKey, String description) {
         String value = System.getProperty(systemPropertyKey);
         if (value == null) {
