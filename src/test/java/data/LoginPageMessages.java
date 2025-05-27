@@ -1,4 +1,4 @@
-package helpers;
+package data;
 
 public class LoginPageMessages {
     public static final String SUCCESS_LOGIN_MESSAGE = "You're logged in!!";

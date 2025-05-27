@@ -1,14 +1,12 @@
 package pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import helpers.MainPageMessages;
-import org.testng.reporters.jq.Main;
+import data.MainPageMessages;
 
 import java.time.Duration;
 

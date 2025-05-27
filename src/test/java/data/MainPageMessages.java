@@ -1,4 +1,4 @@
-package helpers;
+package data;
 
 public class MainPageMessages {
     public static final String REGISTER_NOW_BUTTON = "Register Now";

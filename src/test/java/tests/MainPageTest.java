@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.MainPage;
 import pages.LifetimeMembershipPage;
-import helpers.MainPageMessages;
+import data.MainPageMessages;
 
 import java.time.Duration;
 

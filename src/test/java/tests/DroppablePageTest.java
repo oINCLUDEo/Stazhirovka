@@ -1,7 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
-import helpers.OtherPagesMessages;
+import data.OtherPagesMessages;
 import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

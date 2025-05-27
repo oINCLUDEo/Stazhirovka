@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
 import pages.LoginPage;
-import helpers.LoginPageMessages;
+import data.LoginPageMessages;
 import helpers.TestConfig;
 import listeners.TestListener;
 
