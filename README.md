@@ -16,7 +16,7 @@ mvn clean test -Dtest=MainPageTest
 
 - ## test_suite.xml
 ```bash
-mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password -DsqlExUsername=sqluser -DsqlExPassword=sqlpass
+mvn clean test -DsuiteXmlFile="src/test/resources/test_suite.xml" -Dusername=angular -Dpassword=password -DsqlExUsername=sqluser -DsqlExPassword=sqlpass -DhttpWatchUsername=httpwatch -DhttpWatchPassword=httpwatch
 ```
 
 - ## universal_login_suite.xml
@@ -60,6 +60,8 @@ mvn clean test
   -Dpassword=<Пароль Way2Automation>
   -DsqlExUsername=<Логин SQL-Ex>
   -DsqlExPassword=<Пароль SQL-Ex>
+  -DhttpWatchUsername=<Логин HTTPWatch>
+  -DhttpWatchPassword=<Пароль HTTPWatch>
 ```
 
 ### Через переменные окружения
@@ -69,6 +71,8 @@ $env:USERNAME = "angular"
 $env:PASSWORD = "password"
 $env:SQLEX_USERNAME = "sqluser"
 $env:SQLEX_PASSWORD = "sqlpass"
+$env:HTTPWATCH_USERNAME = "httpwatch"
+$env:HTTPWATCH_PASSWORD = "httpwatch"
 mvn clean test
 ```
 
@@ -85,6 +89,8 @@ mvn clean test
   -Dpassword=password
   -DsqlExUsername=sqluser
   -DsqlExPassword=sqlpass
+  -DhttpWatchUsername=httpwatch
+  -DhttpWatchPassword=httpwatch
 ```
 
 ## 📊 Allure отчёты
