@@ -12,6 +12,17 @@ public class GenerateData {
     private static final Logger LOG = LoggerFactory.getLogger(GenerateData.class);
 
     /**
+     * Генерирует случайный текст для алерта
+     * @return строка с текстом длиной от 5 до 15 символов
+     */
+    public static String generateAlertText() {
+        int length = random.nextInt(6) + 5; // от 5 до 15 символов
+        String alertText = faker.lorem().characters(length);
+        LOG.info("Сгенерированный текст для алерта: " + alertText);
+        return alertText;
+    }
+
+    /**
      * Генерирует случайное описание имени пользователя.
      * Использует Lorem Ipsum из Faker и логирует результат.
      *
