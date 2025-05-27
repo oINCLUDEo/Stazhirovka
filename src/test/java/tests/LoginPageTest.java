@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
 import pages.LoginPage;
-import helpers.LoginPageMessages;
+import data.LoginPageMessages;
 import helpers.TestConfig;
 import listeners.TestListener;
 
@@ -47,7 +47,7 @@ public class LoginPageTest extends BaseTest {
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
+        assertEqualsWithMessage(actualSuccessMessage, expectedSuccessMessage);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class LoginPageTest extends BaseTest {
                 .clickLogin();
         String actualErrorMessage = loginPage.getErrorMessageText();
         String expectedErrorMessage = LoginPageMessages.ERROR_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedErrorMessage, actualErrorMessage);
+        assertEqualsWithMessage(actualErrorMessage, expectedErrorMessage);
     }
 
     @DataProvider(name = "loginData")
@@ -89,7 +89,7 @@ public class LoginPageTest extends BaseTest {
                 .clickLogin();
         String actualSuccessMessage = loginPage.getSuccessMessageText();
         String expectedSuccessMessage = LoginPageMessages.SUCCESS_LOGIN_MESSAGE;
-        assertEqualsWithMessage(expectedSuccessMessage, actualSuccessMessage);
+        assertEqualsWithMessage(actualSuccessMessage, expectedSuccessMessage);
         loginPage.logout();
     }
 
