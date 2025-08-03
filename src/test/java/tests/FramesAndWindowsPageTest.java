@@ -35,4 +35,4 @@ public class FramesAndWindowsPageTest extends BaseTest {
         assertEquals(getWebDriver().getWindowHandles().size(), 3, "Должно быть открыто 3 вкладки");
     }
 }
-// test2
+// test3
