@@ -9,5 +9,5 @@ COPY . .
 RUN mkdir -p /app/downloads
 
 # Запускаем Maven с нужными параметрами
-ENTRYPOINT ["mvn", "clean", "test", "-Dtest=LoginPageTest", "-Dusername=angular", "-Dpassword=password"]
+ENTRYPOINT ["mvn", "test", "-Dtest=LoginPageTest", "-Dusername=angular", "-Dpassword=password"]
 
