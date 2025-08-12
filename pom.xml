@@ -134,6 +134,12 @@
                             <value>${project.build.directory}/allure-results</value>
                         </property>
                     </systemProperties>
+                    <!-- Генерировать отчеты даже при падении тестов -->
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <failIfNoTests>false</failIfNoTests>
+                    <!-- Форматы отчетов -->
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <useFile>true</useFile>
                 </configuration>
 
                 <dependencies>
