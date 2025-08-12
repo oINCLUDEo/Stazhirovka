@@ -39,7 +39,7 @@ services:
       - browser=chrome
     volumes:
       - ./downloads:/app/downloads
-      - ./allure-results:/app/allure-results
+      - ./allure-results:/app/target/allure-results
       - ./maven-cache:/root/.m2
     networks:
       - selenoid
