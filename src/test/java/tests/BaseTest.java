@@ -10,7 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.*;
 import static helpers.AllureHelper.attachPageSourceToAllure;
@@ -22,38 +26,51 @@ public class BaseTest {
 
     @BeforeClass
     @Parameters({"browser"})
-    public void setUp(@Optional("") String browserFromXml) {
-        Configuration.baseUrl = "https://www.way2automation.com/";
-        String browserName = System.getProperty("browser");
-        if (browserName == null || browserName.isEmpty()) {
-            browserName = browserFromXml;
-        }
-        if (browserName == null || browserName.isEmpty()) {
-            browserName = "chrome";
-        }
-        browserName = browserName.toUpperCase();;
-        Configuration.downloadsFolder = "target/downloads";
-        Configuration.headless = false;
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.remoteConnectionTimeout = 5000;
-        Configuration.remoteReadTimeout = 5000;
-        Configuration.pageLoadTimeout = 10000;
-
-        try {
-            DriverFactory.Browser browser = DriverFactory.Browser.valueOf(browserName);
-            WebDriver driver = DriverFactory.createDriver(browser);
+    public void setUp(@Optional("") String browser) {
+        LOG.info("Запуск метода setUp с браузером: {}", browser);
+        
+        // Проверяем наличие SELENOID_URL
+        String selenoidUrl = System.getenv("SELENOID_URL");
+        if (selenoidUrl != null && !selenoidUrl.isEmpty()) {
+            LOG.info("Обнаружен SELENOID_URL: {}, используем headless режим", selenoidUrl);
+            
+            // Настраиваем Selenide для работы с Selenoid
+            Configuration.remote = selenoidUrl;
+            Configuration.browser = "chrome";
+            Configuration.browserVersion = "latest";
+            Configuration.baseUrl = "https://www.way2automation.com/";
+            
+            // Настройки для стабильности
+            Configuration.pageLoadStrategy = "eager";
+            Configuration.remoteConnectionTimeout = 60000;
+            Configuration.remoteReadTimeout = 60000;
+            Configuration.pageLoadTimeout = 60000;
+            
+            // Capabilities для Selenoid
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu");
+            options.setCapability("selenoid:options", Map.of(
+                "enableVNC", false,
+                "enableVideo", false
+            ));
+            Configuration.browserCapabilities = options;
+            
+        } else {
+            // Локальная конфигурация
+            Configuration.baseUrl = "https://www.way2automation.com/";
+            DriverFactory.Browser browserType = browser.isEmpty() ? DriverFactory.Browser.CHROME : DriverFactory.Browser.valueOf(browser.toUpperCase());
+            WebDriver driver = DriverFactory.createDriver(browserType);
             WebDriverRunner.setWebDriver(driver);
-            LOG.info("Браузер {} успешно инициализирован", browserName);
-        } catch (IllegalArgumentException e) {
-            LOG.error("Неподдерживаемый браузер: {}. Используем Chrome по умолчанию", browserName);
-            WebDriver driver = DriverFactory.createDriver(DriverFactory.Browser.CHROME);
-            WebDriverRunner.setWebDriver(driver);
         }
-
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-        );
+        
+        // Настройка Allure
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        
+        // Настройка загрузок
+        Configuration.downloadsFolder = "/app/downloads";
+        Configuration.reportsFolder = "test-reports";
+        
+        LOG.info("Браузер {} успешно инициализирован", browser.isEmpty() ? "CHROME" : browser.toUpperCase());
     }
 
     @AfterMethod
