@@ -80,7 +80,12 @@ public class BaseTest {
             attachScreenshotToAllure();
             attachPageSourceToAllure();
         }
-        closeWebDriver();
         clearBrowserCookies();
+    }
+    
+    @AfterClass
+    public void tearDown() {
+        LOG.info("Закрытие браузера после завершения всех тестов класса");
+        closeWebDriver();
     }
 }
