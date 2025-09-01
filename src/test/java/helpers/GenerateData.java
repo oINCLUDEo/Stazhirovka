@@ -66,4 +66,86 @@ public class GenerateData {
         LOG.info("Сгенерированное невалидное имя пользователя: " + wrongUsername);
         return wrongUsername;
     }
+
+    /**
+     * Генерирует случайное имя для клиента банка
+     * @return случайное имя
+     */
+    public static String generateCustomerFirstName() {
+        String firstName = faker.name().firstName();
+        LOG.info("Сгенерированное имя клиента: " + firstName);
+        return firstName;
+    }
+
+    /**
+     * Генерирует случайную фамилию для клиента банка
+     * @return случайная фамилия
+     */
+    public static String generateCustomerLastName() {
+        String lastName = faker.name().lastName();
+        LOG.info("Сгенерированная фамилия клиента: " + lastName);
+        return lastName;
+    }
+
+    /**
+     * Генерирует случайный почтовый индекс
+     * @return случайный почтовый индекс
+     */
+    public static String generatePostCode() {
+        String postCode = faker.address().zipCode();
+        LOG.info("Сгенерированный почтовый индекс: " + postCode);
+        return postCode;
+    }
+
+    /**
+     * Генерирует случайный email
+     * @return случайный email
+     */
+    public static String generateEmail() {
+        String email = faker.internet().emailAddress();
+        LOG.info("Сгенерированный email: " + email);
+        return email;
+    }
+
+    /**
+     * Генерирует случайный пароль
+     * @return случайный пароль
+     */
+    public static String generatePassword() {
+        String password = faker.internet().password();
+        LOG.info("Сгенерированный пароль: " + password);
+        return password;
+    }
+
+    /**
+     * Генерирует случайную сумму для депозита
+     * @return случайная сумма от 100 до 10000
+     */
+    public static String generateDepositAmount() {
+        int amount = random.nextInt(9900) + 100;
+        LOG.info("Сгенерированная сумма депозита: " + amount);
+        return String.valueOf(amount);
+    }
+
+    /**
+     * Генерирует случайную сумму для снятия средств
+     * @param maxBalance максимальный баланс
+     * @return случайная сумма от 1 до maxBalance
+     */
+    public static String generateWithdrawAmount(int maxBalance) {
+        int amount = random.nextInt(maxBalance) + 1;
+        LOG.info("Сгенерированная сумма снятия: " + amount);
+        return String.valueOf(amount);
+    }
+
+    /**
+     * Генерирует случайную валюту из списка доступных
+     * @return случайная валюта
+     */
+    public static String generateCurrency() {
+        String[] currencies = {"Dollar", "Pound", "Rupee"};
+        String currency = currencies[random.nextInt(currencies.length)];
+        LOG.info("Сгенерированная валюта: " + currency);
+        return currency;
+    }
 }

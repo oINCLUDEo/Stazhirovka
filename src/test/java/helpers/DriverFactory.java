@@ -46,7 +46,7 @@ public class DriverFactory {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 setCommonOptions(chromeOptions);
                 // Добавляем опции для работы в Docker без GUI
-                chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+                chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage");
                 return new ChromeDriver(chromeOptions);
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
